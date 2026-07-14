@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днём Рождения, Камила! 🌸</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fce4ec;
+            overflow-x: hidden;
+        }
+
+        /* ===== ЗАСТАВКА С СЕРДЦЕМ ===== */
+        #splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f8bbd0, #f48fb1, #f06292);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        #splash.hide {
+            opacity: 0;
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+
+        .heart {
+            font-size: 120px;
+            animation: heartbeat 0.9s ease-in-out infinite;
+            cursor: pointer;
+            user-select: none;
+            text-shadow: 0 0 60px rgba(255, 255, 255, 0.6);
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            14% { transform: scale(1.25); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.2); }
+            70% { transform: scale(1); }
+        }
+
+        .splash-text {
+            color: white;
+            font-size: 22px;
+            font-weight: 300;
+            margin-top: 30px;
+            letter-spacing: 4px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+            animation: pulseText 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .splash-sub {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            font-weight: 300;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 10px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .splash-sub:hover {
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.05);
+        }
+
+        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
+        #main-content {
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        #main-content.show {
+            opacity: 1;
+        }
+
+        /* ===== ШАПКА ===== */
+        header {
+            background: linear-gradient(135deg, #f8bbd0, #ec407a);
+            padding: 60px 20px 40px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-size: 38px;
+            font-weight: 300;
+            letter-spacing: 6px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.15);
+        }
+
+        header h1 span {
+            font-weight: 700;
+            display: inline-block;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+            50% { text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 60px rgba(236, 64, 122, 0.4); }
+        }
+
+        header .subtitle {
+            font-weight: 300;
+            font-size: 18px;
+            opacity: 0.9;
+            margin-top: 8px;
+            letter-spacing: 2px;
+        }
+
+        .age-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 10px 35px;
+            border-radius: 50px;
+            margin-top: 20px;
+            font-size: 28px;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .age-badge small {
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        /* ===== СЧЁТЧИК ДНЕЙ ===== */
+        .counter-section {
+            background: white;
+            margin: -20px 20px 0;
+            padding: 25px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(233, 30, 99, 0.15);
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .counter-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ec407a, #f06292);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .counter-label {
+            font-size: 14px;
+            color: #ad1457;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* ===== ТАЙМЛАЙН ===== */
+        .timeline-section {
+            padding: 60px 20px 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .timeline-title {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 300;
+            color: #880e4f;
+            margin-bottom: 40px;
+            letter-spacing: 3px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-date {
+            min-width: 110px;
+            font-weight: 700;
+            color: #ec407a;
+            font-size: 16px;
+            padding-top: 4px;
+        }
+
+        .timeline-line {
+            width: 3px;
+            background: linear-gradient(to bottom, #f8bbd0, #ec407a);
+            border-radius: 10px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .timeline-line::before {
+            content: '❤';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+        }
+
+        .timeline-line::after {
+            content: '🎂';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(233, 30, 99, 0.08);
+            flex: 1;
+            border-left: 3px solid #f06292;
+        }
+
+        .timeline-content .title {
+            font-weight: 700;
+            color: #880e4f;
+            font-size: 17px;
+        }
+
+        .timeline-content .desc {
+            color: #666;
+            font-size: 14px;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        .timeline-item.special .timeline-content {
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+            border-left-color: #d81b60;
+        }
+
+        /* ===== СЕКРЕТНАЯ КНОПКА ===== */
+        .secret-wrapper {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .secret-btn {
+            background: transparent;
+            border: 2px dashed #f06292;
+            color: #ad1457;
+            padding: 12px 40px;
+            border-radius: 50px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.4s;
+            font-weight: 300;
+            letter-spacing: 2px;
+            opacity: 0.5;
+        }
+
+        .secret-btn:hover {
+            opacity: 1;
+            background: #f06292;
+            color: white;
+            transform: scale(1.05);
+            border-style: solid;
+        }
+
+        /* ===== МУЗЫКАЛЬНЫЙ ПЛЕЕР ===== */
+        .music-section {
+            max-width: 400px;
+            margin: 20px auto 40px;
+            padding: 0 20px;
+        }
+
+        .music-box {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 30px rgba(233, 30, 99, 0.1);
+            text-align: center;
+        }
+
+        .music-box .label {
+            font-size: 12px;
+            color: #ad1457;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+
+        .music-box iframe {
+            width: 100%;
+            border-radius: 12px;
+            margin-top: 10px;
+            height: 80px;
+        }
+
+        /* ===== ФУТЕР ===== */
+        footer {
+            text-align: center;
+            padding: 30px 20px 40px;
+            color: #ad1457;
+            font-weight: 300;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+
+        footer .sign {
+            font-size: 18px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ec407a, #f06292);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        footer .heart-icon {
+            color: #ec407a;
+            -webkit-text-fill-color: #ec407a;
+        }
+
+        /* ===== ПОПАП ===== */
+        #popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #popup-overlay.open {
+            display: flex;
+        }
+
+        .popup-box {
+            background: linear-gradient(135deg, #fff5f7, #fce4ec);
+            max-width: 420px;
+            width: 100%;
+            padding: 40px 30px;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .popup-box .big-heart {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+
+        .popup-box h2 {
+            color: #880e4f;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .popup-box p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 15px 0;
+        }
+
+        .popup-box .signature {
+            font-size: 18px;
+            font-weight: 700;
+            color: #d81b60;
+            margin-top: 10px;
+        }
+
+        .popup-close {
+            background: linear-gradient(135deg, #ec407a, #d81b60);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: 0.3s;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .popup-close:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.4);
+        }
+
+        /* ===== ДОЖДЬ ИЗ БУКВ ===== */
+        #rain-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .rain-letter {
+            position: absolute;
+            font-size: 28px;
+            font-weight: 700;
+            color: rgba(236, 64, 122, 0.5);
+            animation: rainDrop linear infinite;
+            user-select: none;
+        }
+
+        @keyframes rainDrop {
+            0% { transform: translateY(-60px) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 500px) {
+            header h1 { font-size: 26px; letter-spacing: 3px; }
+            .age-badge { font-size: 22px; padding: 8px 25px; }
+            .counter-number { font-size: 36px; }
+            .timeline-date { min-width: 80px; font-size: 13px; }
+            .timeline-content .title { font-size: 15px; }
+            .popup-box { padding: 30px 20px; }
+            .heart { font-size: 80px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== ЗАСТАВКА ===== -->
+    <div id="splash">
+        <div class="heart" id="heartBtn">❤️</div>
+        <div class="splash-text">Камила Алишеровна</div>
+        <div class="splash-sub" id="enterBtn">🌸 Нажми, чтобы войти 🌸</div>
+    </div>
+
+    <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
+    <div id="main-content">
+
+        <header>
+            <h1>🎂 С Днём Рождения, <span>Камила</span>!</h1>
+            <div class="subtitle">Атаджанова Камила Алишеровна</div>
+            <div class="age-badge">
+                16 <small>лет</small>
+            </div>
+        </header>
+
+        <!-- ===== СЧЁТЧИК ===== -->
+        <div class="counter-section">
+            <div class="counter-number" id="daysCounter">0</div>
+            <div class="counter-label">дней мы знакомы</div>
+            <div style="font-size:13px; color:#ad1457; margin-top:6px; font-weight:300;">
+                с 15 сентября 2024
+            </div>
+        </div>
+
+        <!-- ===== ТАЙМЛАЙН ===== -->
+        <div class="timeline-section">
+            <div class="timeline-title">❀ Наша история ❀</div>
+
+            <div class="timeline-item visible" style="transition-delay:0.1s;">
+                <div class="timeline-date">15.09.2024</div>
+                <div class="timeline-line"></div>
+                <div class="timeline-content">
+                    <div class="title">✨ Знакомство</div>
+                    <div class="desc">В этот день я увидел тебя и понял — опоздал на автобус, но успел в жизнь. Ты улыбнулась, и всё завертелось ❤️</div>
+                </div>
+            </div>
+
+            <div class="timeline-item special visible" style="transition-delay:0.4s;">
+                <div class="timeline-date">28.12.2025</div>
+                <div class="timeline-line"></div>
+                <div class="timeline-content">
+                    <div class="title">🌧️ Расставание</div>
+                    <div class="desc">Мы разошлись, но знаешь что? Я до сих пор ищу тебя взглядом в каждой толпе. Статус "бывшая" не меняет того, что ты — моя.</div>
+                </div>
+            </div>
+
+            <div class="timeline-item special visible" style="transition-delay:0.7s; border-left-color: #d81b60;">
+                <div class="timeline-date">15.07.2026</div>
+                <div class="timeline-line"></div>
+                <div class="timeline-content" style="background: linear-gradient(135deg, #fce4ec, #f8bbd0); border-left-color: #d81b60;">
+                    <div class="title">🎉 Сегодня</div>
+                    <div class="desc"><strong>Твой день!</strong> Ты стала на год старше, мудрее и ещё красивее. Я помню каждую секунду с тобой. С днём рождения, Камила!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== СЕКРЕТНАЯ КНОПКА ===== -->
+        <div class="secret-wrapper">
+            <button class="secret-btn" id="secretBtn">💫 Не нажимай, если не скучаешь</button>
+        </div>
+
+        <!-- ===== МУЗЫКА ===== -->
+        <div class="music-section">
+            <div class="music-box">
+                <div class="label">🎵 Твой трек от меня</div>
+                <iframe src="https://www.youtube.com/embed/gdZLi9oWNZg?autoplay=0&loop=1&playlist=gdZLi9oWNZg" 
+                        allow="autoplay; encrypted-media" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- ===== ФУТЕР ===== -->
+        <footer>
+            <div>Сделано с <span class="heart-icon">❤️</span> для тебя одной</div>
+            <div class="sign">Твой любимый Страйк</div>
+            <div style="font-size:12px; opacity:0.5; margin-top:10px;">
+                15.07.2026 — день, когда мир стал ярче
+            </div>
+        </footer>
+    </div>
+
+    <!-- ===== ПОПАП ===== -->
+    <div id="popup-overlay">
+        <div class="popup-box">
+            <div class="big-heart">💗</div>
+            <h2>Камила, с днём рождения!</h2>
+            <p>
+                Ты думала, я подарю цветы? 🌸<br>
+                Я дарю тебе этот код, который писал для тебя вместо сна.<br><br>
+                Мы расстались, но ты навсегда останешься в моём сердце.<br>
+                Спасибо за каждый день, каждую улыбку и даже за слёзы — они сделали меня сильнее.<br><br>
+                <strong>Ты — моя самая красивая ошибка.</strong><br>
+                И я не хочу её исправлять.
+            </p>
+            <div class="signature">— Твой любимый Страйк ❤️</div>
+            <button class="popup-close" id="popupClose">Закрыть и улыбнуться 😊</button>
+        </div>
+    </div>
+
+    <!-- ===== КОНТЕЙНЕР ДЛЯ ДОЖДЯ ===== -->
+    <div id="rain-container"></div>
+
+    <script>
+        // ===== СЧЁТЧИК ДНЕЙ =====
+        function updateDays() {
+            const start = new Date(2024, 8, 15); // 15 сентября 2024
+            const now = new Date();
+            const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+            document.getElementById('daysCounter').textContent = diff || 0;
+        }
+        updateDays();
+
+        // ===== ЗАСТАВКА =====
+        const splash = document.getElementById('splash');
+        const mainContent = document.getElementById('main-content');
+        const enterBtn = document.getElementById('enterBtn');
+        const heartBtn = document.getElementById('heartBtn');
+
+        function enterSite() {
+            splash.classList.add('hide');
+            setTimeout(() => {
+                splash.style.display = 'none';
+                mainContent.classList.add('show');
+            }, 1000);
+        }
+
+        enterBtn.addEventListener('click', enterSite);
+        heartBtn.addEventListener('click', function() {
+            this.style.transform = 'scale(1.5)';
+            setTimeout(() => { this.style.transform = ''; }, 300);
+        });
+
+        // ===== ПОПАП =====
+        const secretBtn = document.getElementById('secretBtn');
+        const popup = document.getElementById('popup-overlay');
+        const popupClose = document.getElementById('popupClose');
+
+        secretBtn.addEventListener('click', function() {
+            popup.classList.add('open');
+            startRain();
+        });
+
+        popupClose.addEventListener('click', function() {
+            popup.classList.remove('open');
+            stopRain();
+        });
+
+        popup.addEventListener('click', function(e) {
+            if (e.target === this) {
+                popup.classList.remove('open');
+                stopRain();
+            }
+        });
+
+        // ===== ДОЖДЬ ИЗ БУКВ =====
+        let rainInterval = null;
+
+        function startRain() {
+            const container = document.getElementById('rain-container');
+            const letters = ['K', 'A'];
+            let count = 0;
+
+            if (rainInterval) return;
+
+            rainInterval = setInterval(() => {
+                const el = document.createElement('div');
+                el.className = 'rain-letter';
+                el.textContent = letters[Math.floor(Math.random() * letters.length)];
+                el.style.left = Math.random() * 100 + '%';
+                el.style.fontSize = (20 + Math.random() * 30) + 'px';
+                el.style.animationDuration = (2 + Math.random() * 3) + 's';
+                el.style.opacity = 0.3 + Math.random() * 0.5;
+                el.style.transform = `rotate(${Math.random() * 360}deg)`;
+                container.appendChild(el);
+
+                setTimeout(() => el.remove(), 5000);
+                count++;
+                if (count > 80) { // ограничим чтобы не залагало
+                    clearInterval(rainInterval);
+                    rainInterval = null;
+                    setTimeout(startRain, 500);
+                }
+            }, 120);
+        }
+
+        function stopRain() {
+            if (rainInterval) {
+                clearInterval(rainInterval);
+                rainInterval = null;
+            }
+            document.getElementById('rain-container').innerHTML = '';
+        }
+
+        // ===== ТАЙМЛАЙН АНИМАЦИЯ (скролл) =====
+        function revealTimeline() {
+            const items = document.querySelectorAll('.timeline-item');
+            items.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 80 && !item.classList.contains('visible')) {
+                    item.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealTimeline);
+        window.addEventListener('load', () => {
+            setTimeout(revealTimeline, 500);
+        });
+
+        // ===== АВТОЗАПУСК ПОПАПА ЧЕРЕЗ 5 СЕКУНД ПОСЛЕ ВХОДА (для эффекта) =====
+        let popupShown = false;
+        document.addEventListener('click', function firstClick() {
+            if (!popupShown && !splash.classList.contains('hide')) {
+                // не показываем пока заставка видна
+                return;
+            }
+            if (!popupShown && mainContent.classList.contains('show')) {
+                setTimeout(() => {
+                    if (!popupShown) {
+                        // показываем попап автоматически через 8 секунд после входа
+                    }
+                }, 8000);
+                popupShown = true;
+                document.removeEventListener('click', firstClick);
+            }
+        });
+
+        // Второй вариант: показываем попап через 10 сек после входа
+        let autoPopupTimer = null;
+        const observer = new MutationObserver(() => {
+            if (mainContent.classList.contains('show') && !popupShown) {
+                popupShown = true;
+                autoPopupTimer = setTimeout(() => {
+                    if (!popup.classList.contains('open')) {
+                        popup.classList.add('open');
+                        startRain();
+                    }
+                }, 10000);
+            }
+        });
+        observer.observe(mainContent, { attributes: true, attributeFilter: ['class'] });
+
+        // Если юзер сам нажал секретную кнопку — отменяем автопоказ
+        secretBtn.addEventListener('click', function() {
+            if (autoPopupTimer) {
+                clearTimeout(autoPopupTimer);
+                autoPopupTimer = null;
+            }
+        });
+
+        console.log('🌸 С Днём Рождения, Камила! — Твой любимый Страйк');
+    </script>
+
+</body>
+</html>
